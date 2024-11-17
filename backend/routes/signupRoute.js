@@ -8,17 +8,6 @@ const path = require('path');
 
 const User = require('../models/users.models');
 
-// mongoose.connect("mongodb://127.0.0.1:27017/ecom")
-//     .then(() => {
-//         console.log("Connected to MongoDB");
-//     })
-//     .catch((err) => {
-//         console.log("Error connecting to MongoDB");
-//         console.error(err); 
-//     });
- 
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: false }));
 
 router.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../../frontend/signup.html'));
@@ -30,6 +19,7 @@ router.post('/', async (req, res) => {
     try {
         const user = new User({ fname, lname, email, password });
         await user.save();
+        global.fname = user.fname;
         res.redirect('/productRoute');
     } catch (err) {
         console.error("Error saving product:", err);

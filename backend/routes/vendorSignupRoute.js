@@ -17,7 +17,8 @@ router.post('/', async (req, res) => {
     try {
         const vendor = new Vendor({ fname, lname, email, password });
         await vendor.save();
-        res.render('admin', { fname: vendor.fname });
+        global.fname = user.fname;
+        res.redirect('/admin');
     } catch (err) {
         console.error("Error saving product:", err);
         res.status(500).json({ message: 'Failed to upload product' });
