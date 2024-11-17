@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
     try {
         const user = new User({ fname, lname, email, password });
         await user.save();
-        res.render('admin', { fname: user.fname });
+        res.redirect('/productRoute');
     } catch (err) {
         console.error("Error saving product:", err);
         res.status(500).json({ message: 'Failed to upload product' });

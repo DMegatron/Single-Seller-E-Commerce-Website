@@ -6,22 +6,22 @@ const mongoose = require('mongoose');
 
 const path = require('path');
 
-const User = require('../models/users.models');
+const Vendor = require('../models/vendors.models');
 
 router.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../frontend/login.html'));
+    res.sendFile(path.join(__dirname, '../../frontend/vendorLogin.html'));
 })
 
 router.post('/', async (req, res) => {
     const { email, password } = req.body;
     try {
         // Find user in the database
-        const user = await User.findOne({ email });
+        const vendor = await Vendor.findOne({ email });
 
-        if (user) {
-            if (user.password === password) {
-                global.fname = user.fname;
-                res.redirect('/productRoute');
+        if (vendor) {
+            if (vendor.password === password) {
+                global.fname = vendor.fname;
+                res.render('admin', { fname: vendor.fname });
             } else {
                 res.send("Login failed! Incorrect password.");
             }

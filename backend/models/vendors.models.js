@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const usersSchema = new mongoose.Schema({
+const vendorsSchema = new mongoose.Schema({
     fname: {
         type: String,
         required: true,
@@ -20,6 +20,6 @@ const usersSchema = new mongoose.Schema({
     },
 }, {timestamps: true});
 
-const User = mongoose.model('User', usersSchema);
+const Vendor = mongoose.model('Vendor', vendorsSchema);
 
-module.exports = User;  // Ensure Product is being exported correctly
+module.exports = Vendor;  // Ensure Product is being exported correctly

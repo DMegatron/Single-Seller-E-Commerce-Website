@@ -10,7 +10,10 @@ app.set('view engine', 'hbs');
 const loginRoute = require('./routes/loginRoute');
 const signupRoute = require('./routes/signupRoute');
 const myProductsRoute = require('./routes/myProductsRoute');
-const uploadRoute = require('./routes/uploadRoute'); 
+const uploadRoute = require('./routes/uploadRoute');
+const vendorLoginRoute = require('./routes/vendorLoginRoute'); 
+const vendorSignupRoute = require('./routes/vendorSignupRoute');
+const productRoute = require('./routes/productRoute');
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => { 
         console.log("Connected to MongoDB");
@@ -33,7 +36,17 @@ app.use('/myProducts', myProductsRoute);
 
 app.use('/upload', uploadRoute);
 
+app.use('/vendorLogin', vendorLoginRoute);
+
+app.use('/vendorSignup', vendorSignupRoute);
+
+app.use('/productRoute', productRoute);
+
 app.get('/admin', (req, res) => {
     res.render('admin', { fname: global.fname });
+});
+
+app.get('/test', (req, res) => {
+    res.render('test');
 });
 
