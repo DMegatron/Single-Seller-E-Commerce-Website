@@ -1,10 +1,11 @@
 const express = require('express');
-
 const router = express.Router();
-
 const myProducts = require('../models/products.models');
+const { isAuthenticatedUser, isAuthenticatedVendor } = require('../middlewares/authMiddleware');
 
-router.get('/', async (req, res) => {
+
+// Route to render the products page
+router.get('/', isAuthenticatedVendor, async (req, res) => {
     try {
         const products = await myProducts.find();
         res.render('products', { products });
@@ -15,7 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 // Route to render the update form
-router.get('/update/:id', async (req, res) => {
+router.get('/update/:id', isAuthenticatedVendor, async (req, res) => {
     const productId = req.params.id;
     try {
         const product = await myProducts.findById(productId);
@@ -29,8 +30,8 @@ router.get('/update/:id', async (req, res) => {
     }
 });
 
-
-router.post('/:id', async (req, res) => {
+// Route to handle the update form submission
+router.post('/update/:id', isAuthenticatedVendor, async (req, res) => {
     const productId = req.params.id;
     const { name, description, price, category } = req.body;
 
@@ -51,7 +52,8 @@ router.post('/:id', async (req, res) => {
     }
 });
 
-router.get('/delete/:id', async (req, res) => {
+// Route to handle product deletion
+router.delete('/delete/:id', isAuthenticatedVendor, async (req, res) => {
     const productId = req.params.id;
 
     try {

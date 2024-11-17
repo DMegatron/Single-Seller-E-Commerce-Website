@@ -17,7 +17,8 @@ router.post('/', async (req, res) => {
     try {
         const vendor = new Vendor({ fname, lname, email, password });
         await vendor.save();
-        global.fname = user.fname;
+        req.session.vendorEmail = vendor.email;
+        req.session.vendorFname = vendor.fname;
         res.redirect('/admin');
     } catch (err) {
         console.error("Error saving product:", err);

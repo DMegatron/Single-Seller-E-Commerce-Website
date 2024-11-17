@@ -20,7 +20,8 @@ router.post('/', async (req, res) => {
 
         if (user) {
             if (user.password === password) {
-                global.fname = user.fname;
+                req.session.userEmail = user.email;
+                req.session.userFname = user.fname;
                 res.redirect('/productRoute');
             } else {
                 res.send("Login failed! Incorrect password.");

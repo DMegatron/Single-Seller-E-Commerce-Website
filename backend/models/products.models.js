@@ -17,11 +17,6 @@ const productsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    imageUrl: {
-        type: String,
-        required: true,
-    }
-    
 }, {timestamps: true});
 
 const Product = mongoose.model('Product', productsSchema);

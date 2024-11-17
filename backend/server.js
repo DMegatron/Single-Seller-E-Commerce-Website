@@ -1,10 +1,20 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const env = require('dotenv');
+const session = require('express-session');
 env.config();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(session({
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
+
+
 const PORT = process.env.PORT || 3000;
 app.set('view engine', 'hbs');
 const loginRoute = require('./routes/loginRoute');
@@ -14,6 +24,8 @@ const uploadRoute = require('./routes/uploadRoute');
 const vendorLoginRoute = require('./routes/vendorLoginRoute'); 
 const vendorSignupRoute = require('./routes/vendorSignupRoute');
 const productRoute = require('./routes/productRoute');
+const homeRoute = require('./routes/homeRoute');
+// const cartRoute = require('./routes/cartRoute');
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => { 
         console.log("Connected to MongoDB");
@@ -26,7 +38,7 @@ mongoose.connect(process.env.MONGODB_URI)
         console.error(err); 
     });
 
- 
+app.use('/home', homeRoute);
 
 app.use('/login', loginRoute); 
 
@@ -40,13 +52,20 @@ app.use('/vendorLogin', vendorLoginRoute);
 
 app.use('/vendorSignup', vendorSignupRoute);
 
-app.use('/productRoute', productRoute);
+app.use('/productRoute', productRoute); 
+
+// app.use('/cart', cartRoute);
+
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/vendorLogin');
+});
 
 app.get('/admin', (req, res) => {
-    res.render('admin', { fname: global.fname });
+    if(!req.session.vendorEmail) {
+        return res.redirect('/vendorLogin');
+    }
+    res.render('admin', { fname: req.session.vendorFname });
 });
 
-app.get('/test', (req, res) => {
-    res.render('test');
-});
 

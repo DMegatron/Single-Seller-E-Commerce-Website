@@ -7,11 +7,13 @@ const router = express.Router();
 
 const myProducts = require('../models/products.models');
 
-router.get('/', (req, res) => {
+const { isAuthenticatedUser, isAuthenticatedVendor } = require('../middlewares/authMiddleware');
+
+router.get('/', isAuthenticatedVendor, (req, res) => {
     res.sendFile(path.join(__dirname, '../../frontend/upload.html'));
 });
 
-router.post('/', async (req, res) => {
+router.post('/', isAuthenticatedVendor, async (req, res) => {
     const { name, description, price, category } = req.body;
     
     try {

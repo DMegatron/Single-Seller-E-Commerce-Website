@@ -19,7 +19,8 @@ router.post('/', async (req, res) => {
     try {
         const user = new User({ fname, lname, email, password });
         await user.save();
-        global.fname = user.fname;
+        req.session.userEmail = user.email;
+        req.session.userFname = user.fname;
         res.redirect('/productRoute');
     } catch (err) {
         console.error("Error saving product:", err);
