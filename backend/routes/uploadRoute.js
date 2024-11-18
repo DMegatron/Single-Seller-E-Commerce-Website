@@ -15,9 +15,9 @@ router.get('/', isAuthenticatedVendor, (req, res) => {
 
 router.post('/', isAuthenticatedVendor, async (req, res) => {
     const { name, description, price, category } = req.body;
-    
+    const owner = req.session.vendorEmail;
     try {
-        const product = new myProducts({ name, description, price, category });
+        const product = new myProducts({ name, description, price, category, owner });
         await product.save();
         res.redirect('/admin');
     } catch (err) {

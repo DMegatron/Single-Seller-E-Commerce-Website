@@ -26,7 +26,7 @@
         <!-- Search Bar -->
         <div class="card shadow-sm mb-4">
             <div class="card-body">
-                <form action="/productRoute/search" method="GET" class="d-flex">
+                <form action="/productRoute/search" method="get" class="d-flex">
                     <input type="text" name="query" class="form-control me-2" placeholder="Search for products..."
                         aria-label="Search" required>
                     <button type="submit" class="btn btn-primary">Search</button>
@@ -38,7 +38,7 @@
         <div class="row">
             {{#each products}}
             <div class="col-md-4 mb-4">
-                <div class="card shadow-sm h-100">
+                <div class="card shadow-sm h-100" onclick="window.location.href='/productRoute/{{this.id}}'">
                     <!-- Product Image -->
                     <img src="{{this.imageUrl}}" class="card-img-top" alt="{{this.name}}"
                         style="height: 200px; object-fit: cover;">

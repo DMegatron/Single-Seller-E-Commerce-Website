@@ -2,6 +2,7 @@ function isAuthenticatedUser(req, res, next) {
     if (req.session && req.session.userEmail) {
         return next();
     } else {
+        // return next();
         res.redirect('/login');
     }
 }

@@ -12,18 +12,24 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    const { fname, lname, email, password } = req.body;
-    
+    const { fname, lname, email, password, confirmPassword } = req.body;
+
+    // Check if password and confirmPassword match
+    if (password !== confirmPassword) {
+        return res.status(400).send("Passwords do not match. Please try again.");
+    }
+
     try {
-        const vendor = new Vendor({ fname, lname, email, password });
-        await vendor.save();
-        req.session.vendorEmail = vendor.email;
-        req.session.vendorFname = vendor.fname;
-        res.redirect('/admin');
+        const user = new User({ fname, lname, email, password });
+        await user.save();
+        req.session.userEmail = user.email;
+        req.session.userFname = user.fname;
+        res.redirect('/productRoute');
     } catch (err) {
-        console.error("Error saving product:", err);
-        res.status(500).json({ message: 'Failed to upload product' });
+        console.error("Error saving user:", err);
+        res.status(500).send("Unable to Sign Up! Please try again later.");
     }
 });
+
 
 module.exports = router;
