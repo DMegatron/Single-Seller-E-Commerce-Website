@@ -17,20 +17,22 @@ router.get('/', isAuthenticatedUser, async (req, res) => {
 });
 
 router.get('/search', isAuthenticatedUser, async (req, res) => {
-    const searchQuery = req.query.query?.trim(); // Extract and trim the search query
+    const searchQuery = req.query.q?.trim();
     console.log("Search Query:", searchQuery);
 
     try {
         let products;
 
         if (searchQuery) {
-            // Search for products by name or category with direct comparison
+            const regex = new RegExp(searchQuery, 'i');
             products = await myProducts.find({
                 $or: [
-                    { name: searchQuery },
-                    { category: searchQuery }
+                    { name: regex },
+                    { category: regex }
                 ]
             });
+
+            // console.log("Products:", products);
 
             if (products.length === 0) {
                 return res.send("No products found for query: " + searchQuery);

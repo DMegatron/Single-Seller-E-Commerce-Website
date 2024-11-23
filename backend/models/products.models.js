@@ -17,6 +17,10 @@ const productsSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    quantity: {
+        type: String,
+        required: true
+    },
     owner: {
         type: String,
         required: true,
